@@ -3,7 +3,6 @@
 - ## [Intro presentation to cloud computing and AWS](https://docs.google.com/presentation/d/1mCpHtCIQjaBd_lCSvReo3g7xFn86ZkB96lQiQ9dSDeI/edit#slide=id.p)
 
 ## How to create an ec2 instance and deploying the node app
-### First Step
 - Navigate to EC2 on AWS services
 - Navigate and click launch instance
 - Choose an Amazon Machine Image(AMI) of your choice

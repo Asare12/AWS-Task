@@ -78,3 +78,11 @@ server {
 [remote client] - example: ubuntu@ec2-54-78-54-144.eu-west-1.compute.amazonaws.com (available on Connect to instance -> SSH client) [remote location path] - example: /home/ubuntu/app
 
 ## Setting up AWS multi machine
+- Create 2 git bash instances, ssh one into the app instance and the other into the db instance
+- follow the steps on the following readme: [Multi_Machine](https://github.com/Asare12/Multi_Machine)
+
+## AWS Diagram
+![EC2 Instance](https://github.com/Asare12/AWS-Task/blob/master/images/EC2%20Instance.png)
+
+AWS Multi Machine diagram
+![2 Tier 20architecture](https://github.com/Asare12/AWS-Task/blob/master/images/2%20tier%20architecture.png)

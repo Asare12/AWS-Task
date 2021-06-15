@@ -3,40 +3,33 @@
 - ## [Intro presentation to cloud computing and AWS](https://docs.google.com/presentation/d/1mCpHtCIQjaBd_lCSvReo3g7xFn86ZkB96lQiQ9dSDeI/edit#slide=id.p)
 
 ## How to create an ec2 instance and deploying the node app
-- Navigate to EC2 on AWS services
-- Navigate and click launch instance
-- Choose an Amazon Machine Image(AMI) of your choice
-- In my case I choose Ubuntu Server 16.04 LTS (HVM), SSD Volume Type
-- We then choose the the instance type
-- In my case I choose t2.micro
-- We then fill in the configure instance details
-- Configure the instance to suit your requirements. You can launch multiple instances from the same AMI, request Spot instances to take advantage of the lower pricing, assign an access management role to the instance
-- We then add storage
-- You may add tags if you wish
-- We then configure security group
-- You may create one or select one if some exists
-- Then you can add a few rules for your instance
-- We then launch the instance
+1. Login to AWS and enter the EC2 Page
+2 .Press `Launch Instance` button
+3. Select your AMI, for this example select `Ubuntu Server 16.04 LTS (HVM), SSD Volume Type` and then move to the next step
+4. Choose your instance type, for this example select `t2 micro` and then move to the next step
+5. Select your preferred Network
+6. Select your preferred Subnet
+7. Set auto assigne public IP to `Enable` and move onto the next step
+8. Leave storage as it is, and move onto the next step
+9. Add a tag, with the desired name of your instance, and move onto the next step
+10. Change the name of the security group to your desiered name
+11. Set the source of the first rule to: `My IP`
+12. Create a new rule and set the Type to `HTTP`, then set the Source to `Anywhere`
+13. Create a new rule, leaving the Type as default, then set the Port Range to `3000`, then move onto the next step.
+14. Place a new, or existing security group .pem file into your .ssh file (c/users/name/.shh)
+15. Select that file as your security group key pair
+16. Finish instance creation
 
-## Deploy the node App
-- Open AWS and a local terminal
-- You should see your instance on the list
-- If you click on your instanceID then connect
-- Under the SSH client column you will find informations on how to connect via SSH
-- Do chmod 400 devop_bootcamp.pem (this is the key file)
-- Now ssh into your VM using the ssh command provided in AWS: ssh -i "devop_bootcamp.pem" user@awsVirtualMachineLink.com
-- After you managed to ssh into your VM do the following:
-  - sudo apt-get update -y
-  - sudo apt-get upgrade -y
-  - sudo apt-get install nginx
-- Now you need to exit from your VM
-- Do the following
-  - scp -i ~/.ssh/devop_bootcamp.pem /home/user/app user@vmLink.com:/home/ubuntu/
-- Go inside /home/ubuntu/app
-- run node app.js
-- access yourIP:3000 in the browser
+## Creating a DB instance
+Progress to the security group stage as in the previous steps, then:
+1. Set ssh port source to My IP
+2. Create a new rule, and set Port Range to 27017, and set the source to: Anywhere
+3. Create 1 more rule, setting the Type to HTTP, and set the source to Anywhere
 
-## Seting porvision.sh file in `/home/ubuntu/app`
+
+## Starting the node application with your EC2 Instance
+1. After creating your EC2 instance, copy the app folder to the virtual machine, to do this use: `scp -i [.pem file] -r [app location path] ubuntu@[remote client]:[remote location path]` This will copy the files over, make sure to be in your ssh folder when you run this.
+2. Run a provision file containing the commands required to install nodejs, this will contain the following commands:
 ```
 #!/bin/bash
 sudo apt-get update -y
@@ -63,9 +56,9 @@ npm install
 
 cd app 
 ```
-
-## Reverse proxy
-If you wish to reverse proxy you must change your default file in /etc/nginx/sites-available/default and replace with this:
+3. In order to ssh into the remote virutal machine, use `ssh -i devop_bootcamp.pem ubuntu@[remote client]`, from there you can use the virutal machine.
+4. You can now run the application as normal by using `cd app` and then `node app.js`. You should be able to access the Port 3000 page by using your public IP (available by accessing `Connect to instance -> EC2 Instance connect` on the instance page.
+5. To reverse proxy you need change the default file in /etc/nginx/sites-available/default and replace with this:
 ```
 server {
         listen 80;
@@ -80,3 +73,8 @@ server {
         }
 }
 ```
+6. Restart nginx and run `node app.js` again and the reverse port should redirect from the default nginx page to the 3000 port.
+
+[remote client] - example: ubuntu@ec2-54-78-54-144.eu-west-1.compute.amazonaws.com (available on Connect to instance -> SSH client) [remote location path] - example: /home/ubuntu/app
+
+## Setting up AWS multi machine

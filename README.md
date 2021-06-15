@@ -84,4 +84,5 @@ server {
 AWS Diagram
 ![EC2 Instance](https://github.com/Asare12/AWS-Task/blob/master/images/EC2%20Instance.png)
 
+AWS Multi Machine diagram
 ![2 Tier 20architecture](https://github.com/Asare12/AWS-Task/blob/master/images/2%20tier%20architecture.png)

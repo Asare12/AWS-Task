@@ -73,7 +73,8 @@ server {
         }
 }
 ```
-6. Restart nginx and run `node app.js` again and the reverse port should redirect from the default nginx page to the 3000 port.
+6. After you completed the reverse proxy make sure to `sudo service nginx configtest` to make sure the test pass and `sudo service nginx restart` to make sure nginx saves your changes.
+7. Restart nginx and run `node app.js` again and the reverse port should redirect from the default nginx page to the 3000 port.
 
 [remote client] - example: ubuntu@ec2-54-78-54-144.eu-west-1.compute.amazonaws.com (available on Connect to instance -> SSH client) [remote location path] - example: /home/ubuntu/app
 
